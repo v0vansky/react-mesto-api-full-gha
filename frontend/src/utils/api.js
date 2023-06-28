@@ -4,11 +4,13 @@ class Api {
     this._headers = options.headers;
   }
 
-  getToken(jwt) {
+  _getToken() {
+    const jwt = localStorage.getItem('jwt');
     this._headers.authorization = `Bearer ${jwt}`;
   }
 
   getInitialCards(){
+    this._getToken();
     return fetch(`${this._url}/cards`, {
       method: "GET",
       headers: this._headers,
@@ -24,6 +26,7 @@ class Api {
   }
 
   postCard(data) {
+    this._getToken();
     return fetch(`${this._url}/cards`, {
       method: "POST",
       headers: this._headers,
@@ -33,6 +36,7 @@ class Api {
   }
 
   deleteCard(cardId) {
+    this._getToken();
     return fetch(`${this._url}/cards/${cardId}`, {
       method: "DELETE",
       headers: this._headers,
@@ -41,6 +45,7 @@ class Api {
   }
 
   changeLikeCardStatus(cardId, isLiked) {
+    this._getToken();
     return fetch(`${this._url}/cards/${cardId}/likes`, {
       method: isLiked ? "PUT" : "DELETE",
       headers: this._headers,
@@ -49,6 +54,7 @@ class Api {
   }
 
   getUserInfo() {
+    this._getToken();
     return fetch(`${this._url}/users/me`, {
       method: "GET",
       headers: this._headers,
@@ -57,6 +63,7 @@ class Api {
   }
 
   patchUserInfo(data) {
+    this._getToken();
     return fetch(`${this._url}/users/me`, {
       method: "PATCH",
       headers: this._headers,
@@ -66,6 +73,7 @@ class Api {
   }
 
   patchAvatar(data) {
+    this._getToken();
     return fetch(`${this._url}/users/me/avatar`, {
       method: "PATCH",
       headers: this._headers,
@@ -78,6 +86,6 @@ class Api {
 export const api = new Api({
   url: "https://api.mesto.vovansky.nomoreparties.sbs",
   headers: {
-    "content-type": "application/json"
+    "Content-Type": "application/json",
   }
 })

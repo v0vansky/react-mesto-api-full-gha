@@ -31,28 +31,6 @@ function App() {
   const [userEmail, setUserEmail] = React.useState('');
   const navigate = useNavigate();
 
-  const jwt = localStorage.getItem('jwt');
-  const tokenCheck = () => {
-    if (jwt) {
-      auth.checkToken(jwt).then(res => {
-        if (res) {
-          api.getToken(jwt)
-          setLoggedIn(true);
-          setUserEmail(res.data.email);
-          navigate("/", { replace: true });
-        }
-      }).catch((err) => {
-        setIsInfoTooltipOpen(true);
-        setRegisterSuccess(false);
-        console.log(err);
-      })
-    }
-  }
-
-  React.useEffect(() => {
-    tokenCheck();
-  }, []);
-
   React.useEffect(() => {
     if (loggedIn) {
       Promise.all([api.getUserInfo(), api.getInitialCards()])
@@ -67,6 +45,23 @@ function App() {
         })
     }
   }, [loggedIn]);
+
+  React.useEffect(() => {
+    const jwt = localStorage.getItem('jwt');
+    if (jwt) {
+      auth.checkToken(jwt).then(res => {
+        if (res) {
+          setLoggedIn(true);
+          setUserEmail(res.data.email);
+          navigate("/", { replace: true });
+        }
+      }).catch((err) => {
+        setIsInfoTooltipOpen(true);
+        setRegisterSuccess(false);
+        console.log(err);
+      })
+    }
+  }, []);
 
   const isAnyPopupOpen = 
     isAddPlacePopupOpen ||
@@ -218,6 +213,12 @@ function App() {
         <div className="page__content">
           <Header loggedIn={loggedIn} userEmail={userEmail} onLogout={handleLogout} />
           <Routes>
+            <Route path="/sign-in" element={
+              <Login onLogin={handleLogin} />
+            } />
+            <Route path="/sign-up" element={
+              <Register onRegister={handleRegister} />
+            } />
             <Route path="/" element={
               <ProtectedRoute
                 element={Main}
@@ -230,12 +231,6 @@ function App() {
                 onCardDelete={handleCardDelete}
                 cards = {cards}
               />
-            } />
-            <Route path="/sign-up" element={
-              <Register onRegister={handleRegister} />
-            } />
-            <Route path="/sign-in" element={
-              <Login onLogin={handleLogin} />
             } />
             <Route path="*" element={ loggedIn ? (<Navigate to="/" replace />) : (<Navigate to="sign-in" replace />)} />
           </Routes>
