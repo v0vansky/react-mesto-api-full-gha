@@ -1,4 +1,5 @@
 require('dotenv').config();
+const cors = require('cors');
 const express = require('express');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
@@ -11,7 +12,6 @@ const auth = require('./middlewares/auth');
 const NotFoundError = require('./errors/not-found-error');
 const { regexFilter } = require('./utils/constants');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const cors = require('./middlewares/cors');
 
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -28,7 +28,7 @@ const limiter = rateLimit({
   legacyHeaders: false,
 });
 
-app.use(cors);
+app.use(cors());
 app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
