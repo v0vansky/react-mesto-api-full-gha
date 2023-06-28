@@ -36,7 +36,6 @@ function App() {
     if (jwt) {
       auth.checkToken(jwt).then(res => {
         if (res) {
-          api.getToken(jwt)
           setLoggedIn(true);
           setUserEmail(res.data.email);
           navigate("/", { replace: true });

@@ -4,10 +4,6 @@ class Api {
     this._headers = options.headers;
   }
 
-  getToken(jwt) {
-    this._headers.authorization = `Bearer ${jwt}`;
-  }
-
   getInitialCards(){
     return fetch(`${this._url}/cards`, {
       method: "GET",
