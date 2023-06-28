@@ -31,11 +31,12 @@ function App() {
   const [userEmail, setUserEmail] = React.useState('');
   const navigate = useNavigate();
 
+  const jwt = localStorage.getItem('jwt');
   const tokenCheck = () => {
-    const jwt = localStorage.getItem('jwt');
     if (jwt) {
       auth.checkToken(jwt).then(res => {
         if (res) {
+          api.getToken(jwt)
           setLoggedIn(true);
           setUserEmail(res.data.email);
           navigate("/", { replace: true });
