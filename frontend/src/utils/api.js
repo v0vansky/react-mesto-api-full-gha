@@ -4,6 +4,10 @@ class Api {
     this._headers = options.headers;
   }
 
+  getToken(jwt) {
+    this._headers.authorization = `Bearer ${jwt}`;
+  }
+
   getInitialCards(){
     return fetch(`${this._url}/cards`, {
       method: "GET",
@@ -72,9 +76,8 @@ class Api {
 }
 
 export const api = new Api({
-  url: "https://mesto.nomoreparties.co/v1/cohort-60",
+  url: "https://api.mesto.vovansky.nomoreparties.sbs",
   headers: {
-    "content-type": "application/json",
-    authorization: "d19785a0-38bb-42d0-bebd-94abfb07212d",
+    "content-type": "application/json"
   }
 })
