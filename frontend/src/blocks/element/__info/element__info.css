@@ -1,0 +1,12 @@
+.element__info {
+  margin: 0 auto;
+  display: flex;
+  padding-top: 25px;
+  justify-content: space-between;
+  align-items: center;
+/*   overflow: hidden; */
+  max-width: 240px;
+  width: 100%;
+
+
+}

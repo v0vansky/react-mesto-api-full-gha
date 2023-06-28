@@ -1,0 +1,17 @@
+.element__text {
+  max-width: 190px;
+  margin: 0;
+  align-self: flex-start;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 29.09px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+@media screen and (max-width: 425px) {
+  .element__text {
+    line-height: 29.05px;
+  }
+}

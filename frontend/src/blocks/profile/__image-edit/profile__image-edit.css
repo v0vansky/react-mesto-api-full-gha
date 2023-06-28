@@ -1,0 +1,20 @@
+.profile__image-edit {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  opacity: 0;
+  background-size: cover;
+  background-position: center;
+  background-image: url(../../../images/pen.svg);
+  border-radius: 50%;
+  background-color: black;
+  background-repeat: no-repeat;
+}
+
+.profile__image-edit:hover {
+  transition: .3s;
+  opacity: .8;
+  background-size: 26px 26px;
+  cursor: pointer;
+}
+

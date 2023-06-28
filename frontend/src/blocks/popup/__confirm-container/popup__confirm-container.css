@@ -1,0 +1,16 @@
+.popup__confirm-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-left: 36px;
+  padding-right: 36px;
+  margin-top: -18px;
+}
+
+
+@media screen and (max-width: 425px) {
+  .popup__confirm-container {
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+}
