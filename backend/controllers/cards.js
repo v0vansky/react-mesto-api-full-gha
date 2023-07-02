@@ -17,10 +17,12 @@ const getCards = (req, res, next) => {
 
 const createCard = (req, res, next) => {
   const { name, link } = req.body;
-  const owner = req.user;
+  const owner = req.user._id;
 
   Card.create({ name, link, owner })
-    .then((card) => res.status(STATUS_CREATED).send(card))
+    .then((card) => Card.findById(card._id)
+      .populate('owner')
+      .then((cardPopulated) => res.status(STATUS_CREATED).send(cardPopulated)))
     .catch((err) => {
       if (err instanceof ValidationError) {
         next(new BadRequestError('Переданы некорректные данные в метод создания карточки.'));
@@ -36,7 +38,7 @@ const deleteCard = (req, res, next) => {
       throw new NotFoundError('Карточка не найдена.');
     })
     .then((card) => {
-      if (req.user === card.owner.toString()) {
+      if (req.user._id === card.owner.toString()) {
         Card.deleteOne(card)
           .then(() => {
             res.send(card);
