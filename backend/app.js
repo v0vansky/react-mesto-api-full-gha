@@ -1,4 +1,3 @@
-require('dotenv').config();
 const cors = require('cors');
 const express = require('express');
 const mongoose = require('mongoose');
@@ -10,10 +9,14 @@ const cardsRouter = require('./routes/cards');
 const { login, createUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 const NotFoundError = require('./errors/not-found-error');
-const { regexFilter } = require('./utils/constants');
+const {
+  regexFilter,
+  PORT,
+  DB_SERVER,
+  NODE_ENV,
+} = require('./utils/constants');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-const { PORT = 3000 } = process.env;
 const app = express();
 
 const limiter = rateLimit({
@@ -23,7 +26,7 @@ const limiter = rateLimit({
   legacyHeaders: false,
 });
 
-mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
+mongoose.connect(DB_SERVER, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -82,4 +85,4 @@ app.use((err, req, res, next) => {
   next();
 });
 
-app.listen(PORT, () => console.log(`App started at port ${PORT}`));
+app.listen(PORT, () => console.log(`App started at port ${PORT} in ${NODE_ENV} mode`));
