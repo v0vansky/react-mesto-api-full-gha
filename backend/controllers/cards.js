@@ -11,7 +11,7 @@ const { ValidationError, CastError } = mongoose.Error;
 const getCards = (req, res, next) => {
   Card.find({})
     .populate('owner')
-    .then((cards) => res.send({ data: cards }))
+    .then((cards) => res.send(cards))
     .catch(next);
 };
 
@@ -20,7 +20,7 @@ const createCard = (req, res, next) => {
   const owner = req.user._id;
 
   Card.create({ name, link, owner })
-    .then((card) => res.status(STATUS_CREATED).send({ data: card }))
+    .then((card) => res.status(STATUS_CREATED).send(card))
     .catch((err) => {
       if (err instanceof ValidationError) {
         next(new BadRequestError('Переданы некорректные данные в метод создания карточки.'));
@@ -39,7 +39,7 @@ const deleteCard = (req, res, next) => {
       if (req.user._id === card.owner.toString()) {
         Card.deleteOne(card)
           .then(() => {
-            res.send({ data: card });
+            res.send(card);
           })
           .catch(next);
       } else {
@@ -65,7 +65,7 @@ const likeCard = (req, res, next) => {
       throw new NotFoundError('Карточка не найдена.');
     })
     .populate('owner')
-    .then((card) => res.send({ data: card }))
+    .then((card) => res.send(card))
     .catch((err) => {
       if (err instanceof CastError) {
         next(new BadRequestError('Переданы некорректные данные в метод постановки лайка.'));
@@ -85,7 +85,7 @@ const dislikeCard = (req, res, next) => {
       throw new NotFoundError('Карточка не найдена.');
     })
     .populate('owner')
-    .then((card) => res.send({ data: card }))
+    .then((card) => res.send(card))
     .catch((err) => {
       if (err instanceof CastError) {
         next(new BadRequestError('Переданы некорректные данные в метод удаления лайка.'));
