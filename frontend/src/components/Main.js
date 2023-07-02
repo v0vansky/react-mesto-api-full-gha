@@ -5,6 +5,10 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 function Main(props) {
     const currentUser = React.useContext(CurrentUserContext);
 
+/*     const cardsElements = props.cards.data.map((card) => (
+        <Card key={card._id} card={card} onCardClick={props.onCardClick} onCardLike={props.onCardLike} onCardDelete={props.onCardDelete} />
+      )) */
+    
     return (
         <main>
             <section className="profile">
@@ -20,9 +24,10 @@ function Main(props) {
                 <button type="button" className="profile__add-button" onClick={props.onAddPlace}></button>
             </section>
             <section className="elements">
-                {props.cards.data.map((card) => (
+                {props.cards.map((card) => (
                     <Card card={card} key={card._id} onCardClick={props.onCardClick} onCardLike={props.onCardLike} onCardDelete={props.onCardDelete} />
                 ))}
+                {/* {cardsElements} */}
             </section>
         </main>
     )

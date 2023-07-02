@@ -52,7 +52,7 @@ function App() {
       auth.checkToken(jwt).then(res => {
         if (res) {
           setLoggedIn(true);
-          setUserEmail(res.data.email);
+          setUserEmail(res.email);
           navigate("/", { replace: true });
         }
       }).catch((err) => {
@@ -174,9 +174,9 @@ function App() {
   function handleLogin(email, password) {
     auth.authorize(email, password)
     .then((data) => {
+      setUserEmail(email);
       localStorage.setItem('jwt', data.token);
       setLoggedIn(true);
-      setUserEmail(email);
       navigate('/');
     })
     .catch((err) => {

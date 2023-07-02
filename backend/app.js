@@ -16,16 +16,16 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { PORT = 3000 } = process.env;
 const app = express();
 
-mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
   standardHeaders: true,
   legacyHeaders: false,
+});
+
+mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 });
 
 app.use(cors());
@@ -62,7 +62,7 @@ app.post('/signup', celebrate({
 app.use(auth);
 app.use('/users', usersRouter);
 app.use('/cards', cardsRouter);
-app.use('*', (req, res, next) => {
+app.use('/*', (req, res, next) => {
   next(new NotFoundError('Указанный путь не найден'));
 });
 

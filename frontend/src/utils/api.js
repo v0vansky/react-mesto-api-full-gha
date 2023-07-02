@@ -1,21 +1,7 @@
 class Api {
   constructor(options) {
     this._url = options.url;
-    this._headers = options.headers;
-  }
-
-  _getToken() {
-    const jwt = localStorage.getItem('jwt');
-    this._headers.authorization = `Bearer ${jwt}`;
-  }
-
-  getInitialCards(){
-    this._getToken();
-    return fetch(`${this._url}/cards`, {
-      method: "GET",
-      headers: this._headers,
-    })
-    .then((res) => this._checkResponse(res));
+    // this._checkResponse = this._checkResponse.bind(this);
   }
 
   _checkResponse(res) {
@@ -25,59 +11,95 @@ class Api {
     return Promise.reject(`Ошибка: ${res.status}`);
   }
 
+  getInitialCards(){
+    const jwt = localStorage.getItem('jwt');
+    return fetch(`${this._url}/cards`, {
+      method: "GET",
+      headers: {
+        authorization: `Bearer ${jwt}`,
+        "Content-Type": "application/json",
+      },
+    })
+    .then((res) => this._checkResponse(res));
+  }
+
   postCard(data) {
-    this._getToken();
+    const jwt = localStorage.getItem('jwt');
     return fetch(`${this._url}/cards`, {
       method: "POST",
-      headers: this._headers,
-      body: JSON.stringify(data),
+      headers: {
+        authorization: `Bearer ${jwt}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: data.name,
+        link: data.link
+      }),
     })
     .then((res) => this._checkResponse(res));
   }
 
   deleteCard(cardId) {
-    this._getToken();
+    const jwt = localStorage.getItem('jwt');
     return fetch(`${this._url}/cards/${cardId}`, {
       method: "DELETE",
-      headers: this._headers,
+      headers: {
+        authorization: `Bearer ${jwt}`,
+        "Content-Type": "application/json",
+      },
     })
     .then((res) => this._checkResponse(res));
   }
 
   changeLikeCardStatus(cardId, isLiked) {
-    this._getToken();
+    const jwt = localStorage.getItem('jwt');
     return fetch(`${this._url}/cards/${cardId}/likes`, {
       method: isLiked ? "PUT" : "DELETE",
-      headers: this._headers,
+      headers: {
+        authorization: `Bearer ${jwt}`,
+        "Content-Type": "application/json",
+      },
     })
     .then((res) => this._checkResponse(res));
   }
 
   getUserInfo() {
-    this._getToken();
+    const jwt = localStorage.getItem('jwt');
     return fetch(`${this._url}/users/me`, {
       method: "GET",
-      headers: this._headers,
+      headers: {
+        authorization: `Bearer ${jwt}`,
+        "Content-Type": "application/json",
+      },
     })
     .then((res) => this._checkResponse(res));
   }
 
   patchUserInfo(data) {
-    this._getToken();
+    const jwt = localStorage.getItem('jwt');
     return fetch(`${this._url}/users/me`, {
       method: "PATCH",
-      headers: this._headers,
-      body: JSON.stringify(data),
+      headers: {
+        authorization: `Bearer ${jwt}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: data.name,
+        about: data.about
+      }),
     })
     .then((res) => this._checkResponse(res));
   }
 
   patchAvatar(data) {
-    this._getToken();
+    const jwt = localStorage.getItem('jwt');
     return fetch(`${this._url}/users/me/avatar`, {
       method: "PATCH",
-      headers: this._headers,
-      body: JSON.stringify(data),
+      headers: {
+        authorization: `Bearer ${jwt}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ avatar: data.avatar }),
     })
     .then((res) => this._checkResponse(res));
   }
@@ -85,7 +107,4 @@ class Api {
 
 export const api = new Api({
   url: "https://api.mesto.vovansky.nomoreparties.sbs",
-  headers: {
-    "Content-Type": "application/json",
-  }
 })
