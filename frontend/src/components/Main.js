@@ -4,10 +4,6 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 function Main(props) {
     const currentUser = React.useContext(CurrentUserContext);
-
-/*     const cardsElements = props.cards.data.map((card) => (
-        <Card key={card._id} card={card} onCardClick={props.onCardClick} onCardLike={props.onCardLike} onCardDelete={props.onCardDelete} />
-      )) */
     
     return (
         <main>
@@ -26,8 +22,7 @@ function Main(props) {
             <section className="elements">
                 {props.cards.map((card) => (
                     <Card card={card} key={card._id} onCardClick={props.onCardClick} onCardLike={props.onCardLike} onCardDelete={props.onCardDelete} />
-                ))}
-                {/* {cardsElements} */}
+                )).reverse()}
             </section>
         </main>
     )

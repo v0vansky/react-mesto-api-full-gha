@@ -4,7 +4,7 @@ import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import ProtectedRoute from './ProtectedRoute';
 import { api } from "../utils/api";
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
-import * as auth from "../utils/auth";
+import { auth } from "../utils/auth";
 
 import Header from "./Header";
 import Main from "./Main";
