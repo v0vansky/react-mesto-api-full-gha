@@ -8,7 +8,7 @@
 
 ## Ссылки на проект
 
-IP-адрес 158.160.99.95
+IP 158.160.99.95
 
 Frontend https://mesto.vovansky.nomoredomains.work
 
