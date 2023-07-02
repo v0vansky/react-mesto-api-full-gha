@@ -1,7 +1,6 @@
 class Auth {
     constructor(options) {
       this._url = options.url;
-      this._checkResponse = this._checkResponse.bind(this);
     }
 
     _checkResponse(res) {
